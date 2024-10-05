@@ -1,4 +1,3 @@
-```c++
 #include <windows.h>
 #include <cstdint>
 #include <cstdio>
@@ -31,7 +30,7 @@ LONG WINAPI VectoredHandler1(struct _EXCEPTION_POINTERS *ExceptionInfo) {
         }
 
         char buffer[256];
-        sprintf(buffer, "Exception: %08X at %08X", ExceptionInfo->ExceptionRecord->ExceptionCode, context->Eip);
+        sprintf_s(buffer, sizeof(buffer), "Exception: %08X at %08X", ExceptionInfo->ExceptionRecord->ExceptionCode, context->Eip);
         MessageBoxA(NULL, buffer, "Win32", MB_OK);
     }
     return EXCEPTION_CONTINUE_SEARCH;
