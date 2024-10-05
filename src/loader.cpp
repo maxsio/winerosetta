@@ -1,3 +1,4 @@
+```c++
 #include <windows.h>
 #include <iostream>
 #include <filesystem>
@@ -56,7 +57,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // Wait for the DLL to load
     WaitForSingleObject(hThread, INFINITE);
-
 
     // Clean up
     VirtualFreeEx(pi.hProcess, remoteDllPath, 0, MEM_RELEASE);
