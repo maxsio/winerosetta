@@ -2,6 +2,25 @@
 #include <iostream>
 #include <filesystem>
 
+// Define NTSTATUS and other required types
+typedef LONG NTSTATUS;
+#define NT_SUCCESS(Status) (((NTSTATUS)(Status)) >= 0)
+
+// NtCreateThreadEx function pointer
+typedef NTSTATUS(NTAPI* pNtCreateThreadEx)(
+    PHANDLE ThreadHandle,
+    ACCESS_MASK DesiredAccess,
+    PVOID ObjectAttributes,
+    HANDLE ProcessHandle,
+    PVOID StartRoutine,
+    PVOID Argument,
+    ULONG CreateFlags,
+    ULONG_PTR ZeroBits,
+    SIZE_T StackSize,
+    SIZE_T MaximumStackSize,
+    PVOID AttributeList
+);
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     const char* exePath = ".\\wow.exe";
     std::filesystem::path dllPath = std::filesystem::absolute(".\\winerosetta.dll");
@@ -23,6 +42,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     if (!WriteProcessMemory(pi.hProcess, remoteDllPath, dllPath.string().c_str(), dllPath.string().length() + 1, NULL)) {
+        return 1;
+    }
+
+    // Load ntdll.dll and get the address of NtCreateThreadEx
+    HMODULE hNtdll = LoadLibraryA("ntdll.dll");
+    if (!hNtdll) {
+        return 1;
+    }
+
+    pNtCreateThreadEx NtCreateThreadEx = (pNtCreateThreadEx)GetProcAddress(hNtdll, "NtCreateThreadEx");
+    if (!NtCreateThreadEx) {
         return 1;
     }
 
