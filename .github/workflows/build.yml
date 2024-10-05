@@ -26,7 +26,7 @@ jobs:
       run: msbuild build32\winerosettaldr.vcxproj /p:Configuration=Release /p:Platform=Win32
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: build-artifacts
         path: |

@@ -5,6 +5,7 @@ Winerosetta is a library specifically designed for Apple Silicon, WINE, and the 
 
 ## Installation
 
+
 For Turtle-WoW (no Vanilla Fixes):
 
 1. Download the `winerosetta.dll` from the latest release.
