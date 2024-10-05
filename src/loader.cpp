@@ -1,4 +1,3 @@
-```c++
 #include <windows.h>
 #include <iostream>
 #include <filesystem>
